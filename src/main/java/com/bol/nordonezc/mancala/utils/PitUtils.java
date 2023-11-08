@@ -5,11 +5,8 @@ public class PitUtils {
 
     public static final int FIRST_PLAYER_BIG_PIT = 6;
     public static final int SECOND_PLAYER_BIG_PIT = 13;
-
     public static final int EMPTY_PIT = 0;
-
-    public static final int INITIAL_STONES_PER_PIT = 6;
-
+    public static final int DEFAULT_STONE_AMOUNT = 6;
     public static final int NO_PLAYER = 0;
     public static final int FIRST_PLAYER = 1;
     public static final int SECOND_PLAYER = 2;
@@ -26,12 +23,12 @@ public class PitUtils {
      * @return Next pit position to fill
      */
     public static int validPitPositionToFill(int playerTurn, int pitPosition) {
-        if (playerTurn == FIRST_PLAYER && pitPosition == 12) {
+        if (playerTurn == FIRST_PLAYER && pitPosition == SECOND_PLAYER_BIG_PIT) {
             return 0;
         }
 
-        if (playerTurn == SECOND_PLAYER && pitPosition == 0) {
-            return 1;
+        if (playerTurn == SECOND_PLAYER && pitPosition == FIRST_PLAYER_BIG_PIT) {
+            return FIRST_PLAYER_BIG_PIT + 1;
         }
         return pitPosition;
     }
@@ -83,9 +80,9 @@ public class PitUtils {
      * @param pits Actual board
      * @return true if any of the sides are empty
      */
-    public static boolean isOneSideOutOfStones(int[] pits) {
+    public static boolean isOneSideOutOfStones(Integer[] pits) {
         return checkPitRangeEmptiness(pits, 0, FIRST_PLAYER_BIG_PIT) ||
-                checkPitRangeEmptiness(pits, 7, SECOND_PLAYER_BIG_PIT);
+                checkPitRangeEmptiness(pits, FIRST_PLAYER_BIG_PIT, SECOND_PLAYER_BIG_PIT);
     }
 
     /**
@@ -96,7 +93,7 @@ public class PitUtils {
      * @param endingPoint   Last position to check emptiness
      * @return true if all the positions within the range are empty, otherwise false
      */
-    public static boolean checkPitRangeEmptiness(int[] pits, int startingPoint, int endingPoint) {
+    public static boolean checkPitRangeEmptiness(Integer[] pits, int startingPoint, int endingPoint) {
         for (int i = startingPoint; i < endingPoint; i++) {
             if (pits[i] != 0) {
                 return false;

@@ -11,13 +11,13 @@ import static com.bol.nordonezc.mancala.utils.PitUtils.*;
 @Setter
 public class Board {
 
-    private final int[] pits;
-    private int winner;
-    private int playerTurn;
+    private Integer[] pits;
+    private Integer winner;
+    private Integer playerTurn;
 
-    public Board() {
-        pits = new int[14];
-        Arrays.fill(pits, INITIAL_STONES_PER_PIT);
+    public Board(Integer stones) {
+        pits = new Integer[14];
+        Arrays.fill(pits, stones);
         pits[FIRST_PLAYER_BIG_PIT] = EMPTY_PIT;
         pits[SECOND_PLAYER_BIG_PIT] = EMPTY_PIT;
         this.winner = NO_PLAYER;

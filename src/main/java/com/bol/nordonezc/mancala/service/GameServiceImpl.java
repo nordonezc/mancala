@@ -8,8 +8,20 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import static com.bol.nordonezc.mancala.utils.MessageConstants.*;
-import static com.bol.nordonezc.mancala.utils.PitUtils.*;
+import static com.bol.nordonezc.mancala.utils.MessageConstants.EMPTY_POSITION;
+import static com.bol.nordonezc.mancala.utils.MessageConstants.NO_BOARD_FOUND;
+import static com.bol.nordonezc.mancala.utils.MessageConstants.WINNER_SELECTED;
+import static com.bol.nordonezc.mancala.utils.PitUtils.EMPTY_PIT;
+import static com.bol.nordonezc.mancala.utils.PitUtils.FIRST_PLAYER;
+import static com.bol.nordonezc.mancala.utils.PitUtils.FIRST_PLAYER_BIG_PIT;
+import static com.bol.nordonezc.mancala.utils.PitUtils.NO_PLAYER;
+import static com.bol.nordonezc.mancala.utils.PitUtils.SECOND_PLAYER;
+import static com.bol.nordonezc.mancala.utils.PitUtils.SECOND_PLAYER_BIG_PIT;
+import static com.bol.nordonezc.mancala.utils.PitUtils.getNextPlayerTurn;
+import static com.bol.nordonezc.mancala.utils.PitUtils.isFirstPlayerPits;
+import static com.bol.nordonezc.mancala.utils.PitUtils.isOneSideOutOfStones;
+import static com.bol.nordonezc.mancala.utils.PitUtils.isSecondPlayerPits;
+import static com.bol.nordonezc.mancala.utils.PitUtils.validPitPositionToFill;
 
 
 @Service
@@ -22,9 +34,9 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public UUID createGame() {
+    public UUID createGame(Integer stones) {
         UUID newBoardID = UUID.randomUUID();
-        this.match.put(newBoardID, new Board());
+        this.match.put(newBoardID, new Board(stones));
         return newBoardID;
     }
 
@@ -33,7 +45,7 @@ public class GameServiceImpl implements GameService {
         var boardToPlay = this.match.get(boardId);
 
         if (boardToPlay == null) {
-            throw new BoardException(NO_BOARD_FOUND);
+            throw new BoardException(NO_BOARD_FOUND.getMessage());
         }
 
         return boardToPlay;
@@ -47,10 +59,10 @@ public class GameServiceImpl implements GameService {
                 position - 1 + 7;
 
         if (boardToPlay.getWinner() != NO_PLAYER) {
-            throw new BoardException(WINNER_SELECTED);
+            throw new BoardException(WINNER_SELECTED.getMessage());
         }
         if (boardToPlay.getPits()[positionToPlay] == EMPTY_PIT) {
-            throw new BoardException(EMPTY_POSITION);
+            throw new BoardException(EMPTY_POSITION.getMessage());
         }
 
         return playTurn(boardToPlay, positionToPlay);
@@ -111,7 +123,7 @@ public class GameServiceImpl implements GameService {
      * @param pitPosition Reference of the position to check enemy pit
      */
     private void captureEnemyPit(Board board, int pitPosition) {
-        int enemyPit = board.getPits().length - pitPosition - 1;
+        int enemyPit = (SECOND_PLAYER_BIG_PIT - 1) - (pitPosition);
         if (board.getPlayerTurn() == FIRST_PLAYER && isFirstPlayerPits(pitPosition)) {
             board.getPits()[FIRST_PLAYER_BIG_PIT] += board.getPits()[enemyPit] + 1;
             board.getPits()[enemyPit] = EMPTY_PIT;

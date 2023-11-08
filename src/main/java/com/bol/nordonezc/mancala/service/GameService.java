@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public interface GameService {
 
-    UUID createGame();
+    UUID createGame(Integer stones);
 
     Board getGame(UUID boardId);
 
