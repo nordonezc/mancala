@@ -1,12 +1,16 @@
 package com.bol.nordonezc.mancala.exceptions;
 
+import com.bol.nordonezc.mancala.utils.ErrorMessage;
+import lombok.Getter;
+
+@Getter
 public class BoardException extends RuntimeException {
 
-    public BoardException(String message) {
-        super(message);
+    private final ErrorMessage errorCode;
+
+    public BoardException(ErrorMessage errorCode) {
+        super(errorCode.getMessage());
+        this.errorCode = errorCode;
     }
 
-    public BoardException(String message, Throwable cause) {
-        super(message, cause);
-    }
 }

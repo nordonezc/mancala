@@ -16,14 +16,14 @@ import java.util.UUID;
 @AllArgsConstructor
 @EqualsAndHashCode
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class BoardDto implements Serializable {
+public class PlayResponseDto implements Serializable {
 
     private UUID id;
-    private Integer[] firstPlayerPits;
-    private Integer firstPlayerMancala;
-    private Integer[] secondPlayerPits;
-    private Integer secondPlayerMancala;
-    private Integer winner;
-    private Integer playerTurn;
+    private int[] firstPlayerPits;
+    private int firstPlayerMancala;
+    private int[] secondPlayerPits;
+    private int secondPlayerMancala;
+    private int winner;
+    private int playerTurn;
 
 }

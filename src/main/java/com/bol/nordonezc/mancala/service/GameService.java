@@ -1,15 +1,15 @@
 package com.bol.nordonezc.mancala.service;
 
-import com.bol.nordonezc.mancala.domain.Board;
+import com.bol.nordonezc.mancala.business.MancalaBoard;
 
 import java.util.UUID;
 
 public interface GameService {
 
-    UUID createGame(Integer stones);
+    UUID createGame(int stones);
 
-    Board getGame(UUID boardId);
+    MancalaBoard getGame(UUID boardId);
 
-    Board playGame(UUID boardId, int position);
+    MancalaBoard playGame(UUID boardId, int position);
 
 }

@@ -1,9 +1,9 @@
 package com.bol.nordonezc.mancala.controller;
 
-import com.bol.nordonezc.mancala.dto.BoardDto;
 import com.bol.nordonezc.mancala.dto.CreateGameRequestDto;
+import com.bol.nordonezc.mancala.dto.GenericResponse;
 import com.bol.nordonezc.mancala.dto.PlayRequestDto;
-import com.bol.nordonezc.mancala.dto.Response;
+import com.bol.nordonezc.mancala.dto.PlayResponseDto;
 import com.bol.nordonezc.mancala.mappers.BoardMapper;
 import com.bol.nordonezc.mancala.service.GameService;
 import jakarta.validation.Valid;
@@ -28,26 +28,26 @@ public class GameController {
     private final BoardMapper mapper;
 
     @PostMapping("")
-    public ResponseEntity<Response<UUID>> createGame(@RequestBody(required = false) CreateGameRequestDto requestDto) {
+    public ResponseEntity<GenericResponse<UUID>> createGame(@RequestBody(required = false) CreateGameRequestDto requestDto) {
         var gameInput = Optional.ofNullable(requestDto).orElse(new CreateGameRequestDto());
-        return ResponseEntity.ok(new Response<>(gameService.createGame(gameInput.getStones())));
+        return ResponseEntity.ok(new GenericResponse<>(gameService.createGame(gameInput.getStones())));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response<BoardDto>> getGame(@PathVariable UUID id) {
-        BoardDto boardDto = mapper.map(gameService.getGame(id));
+    public ResponseEntity<GenericResponse<PlayResponseDto>> getGame(@PathVariable UUID id) {
+        PlayResponseDto playResponseDto = mapper.map(gameService.getGame(id));
         return ResponseEntity.ok(
-                new Response<>(boardDto));
+                new GenericResponse<>(playResponseDto));
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<Response<BoardDto>> playGame(@PathVariable UUID id,
-                                                       @RequestBody
-                                                       @Valid
-                                                       PlayRequestDto requestDto) {
-        BoardDto boardDto = mapper.map(gameService.playGame(id, requestDto.getPosition()));
-        boardDto.setId(id);
+    public ResponseEntity<GenericResponse<PlayResponseDto>> playGame(@PathVariable UUID id,
+                                                                     @RequestBody
+                                                                     @Valid
+                                                                     PlayRequestDto requestDto) {
+        PlayResponseDto playResponseDto = mapper.map(gameService.playGame(id, requestDto.getPosition()));
+        playResponseDto.setId(id);
         return ResponseEntity.ok(
-                new Response<>(boardDto));
+                new GenericResponse<>(playResponseDto));
     }
 }

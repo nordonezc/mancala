@@ -1,10 +1,13 @@
 package com.bol.nordonezc.mancala.mappers;
 
-import com.bol.nordonezc.mancala.domain.Board;
-import com.bol.nordonezc.mancala.dto.BoardDto;
+import com.bol.nordonezc.mancala.business.MancalaBoard;
+import com.bol.nordonezc.mancala.dto.PlayResponseDto;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
+
+import static com.bol.nordonezc.mancala.utils.PitUtils.FIRST_PLAYER_BIG_PIT;
+import static com.bol.nordonezc.mancala.utils.PitUtils.SECOND_PLAYER_BIG_PIT;
 
 @Component
 public class BoardMapper {
@@ -13,14 +16,18 @@ public class BoardMapper {
         // This mapper does not need any additional mapper to work properly
     }
 
-    public BoardDto map(Board board) {
-        return BoardDto.builder()
-                .firstPlayerPits(Arrays.copyOfRange(board.getPits(), 0, 6))
-                .firstPlayerMancala(board.getPits()[6])
-                .secondPlayerPits(Arrays.copyOfRange(board.getPits(), 7, 13))
-                .secondPlayerMancala(board.getPits()[13])
-                .winner(board.getWinner())
-                .playerTurn(board.getPlayerTurn())
+    public PlayResponseDto map(MancalaBoard mancalaBoard) {
+        return PlayResponseDto.builder()
+                .firstPlayerPits(Arrays.copyOfRange(mancalaBoard.getPits(),
+                        0,
+                        FIRST_PLAYER_BIG_PIT))
+                .firstPlayerMancala(mancalaBoard.getPits()[FIRST_PLAYER_BIG_PIT])
+                .secondPlayerPits(Arrays.copyOfRange(mancalaBoard.getPits(),
+                        FIRST_PLAYER_BIG_PIT + 1,
+                        SECOND_PLAYER_BIG_PIT))
+                .secondPlayerMancala(mancalaBoard.getPits()[SECOND_PLAYER_BIG_PIT])
+                .winner(mancalaBoard.getWinner())
+                .playerTurn(mancalaBoard.getPlayerTurn())
                 .build();
     }
 }
