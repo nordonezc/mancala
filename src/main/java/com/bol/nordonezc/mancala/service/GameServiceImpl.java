@@ -1,54 +1,45 @@
 package com.bol.nordonezc.mancala.service;
 
 import com.bol.nordonezc.mancala.business.MancalaBoard;
+import com.bol.nordonezc.mancala.dto.GameDto;
+import com.bol.nordonezc.mancala.entities.BoardEntity;
 import com.bol.nordonezc.mancala.exceptions.BoardException;
+import com.bol.nordonezc.mancala.mappers.BoardMapper;
+import com.bol.nordonezc.mancala.repository.BoardRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
 
-import static com.bol.nordonezc.mancala.utils.ErrorMessage.EMPTY_POSITION;
-import static com.bol.nordonezc.mancala.utils.ErrorMessage.NO_BOARD_FOUND;
-import static com.bol.nordonezc.mancala.utils.ErrorMessage.WINNER_SELECTED;
-import static com.bol.nordonezc.mancala.utils.PitUtils.EMPTY_PIT;
-import static com.bol.nordonezc.mancala.utils.PitUtils.FIRST_PLAYER;
-import static com.bol.nordonezc.mancala.utils.PitUtils.NO_PLAYER;
+import static com.bol.nordonezc.mancala.utils.ErrorMessage.*;
+import static com.bol.nordonezc.mancala.utils.PitUtils.*;
 
 
 @Service
+@RequiredArgsConstructor
 public class GameServiceImpl implements GameService {
 
-    private final Map<UUID, MancalaBoard> match;
+    private final BoardRepository boardRepository;
 
-    public GameServiceImpl() {
-        this.match = new ConcurrentHashMap<>();
-    }
+    private final BoardMapper boardMapper;
 
     @Override
-    public UUID createGame(int stones) {
+    public GameDto createGame(int stones) {
         UUID newBoardID = UUID.randomUUID();
-        this.match.put(newBoardID, new MancalaBoard(stones));
-        return newBoardID;
+        var boardCreated = boardRepository.save(boardMapper.mapBoardToEntity(newBoardID, new MancalaBoard(stones)));
+        return boardMapper.mapEntityToDto(boardCreated);
     }
 
     @Override
-    public MancalaBoard getGame(UUID boardId) {
-        var boardToPlay = this.match.get(boardId);
-
-        if (boardToPlay == null) {
-            throw new BoardException(NO_BOARD_FOUND);
-        }
-
-        return boardToPlay;
+    public GameDto getGame(UUID boardId) {
+        return boardMapper.mapEntityToDto(getGameBoard(boardId));
     }
 
     @Override
-    public MancalaBoard playGame(UUID boardId, int position) {
-        var boardToPlay = this.getGame(boardId);
-        int positionToPlay = boardToPlay.getPlayerTurn() == FIRST_PLAYER ?
-                position - 1 :
-                position - 1 + 7;
+    public GameDto playGame(UUID boardId, int position) {
+        var boardFound = getGameBoard(boardId);
+        var boardToPlay = boardMapper.mapEntityToBoard(boardFound);
+        int positionToPlay = getPositionToPlay(position, boardToPlay.getPlayerTurn());
 
         if (boardToPlay.getWinner() != NO_PLAYER) {
             throw new BoardException(WINNER_SELECTED);
@@ -58,6 +49,31 @@ public class GameServiceImpl implements GameService {
         }
 
         boardToPlay.playTurn(positionToPlay);
-        return boardToPlay;
+        var entityBoard = boardMapper.mapBoardToEntity(boardId, boardToPlay);
+        boardRepository.save(entityBoard);
+        return boardMapper.mapEntityToDto(entityBoard);
+    }
+
+    /**
+     * Determine the position to play based on the current player turn and subtracting 1 from the request
+     *
+     * @param position   - Position given in the request that could be between 1 and 6
+     * @param playerTurn - Actual board to check the player turn
+     * @return The position that would be used to play in the MancalaBoard
+     */
+    private static int getPositionToPlay(int position, int playerTurn) {
+        return playerTurn == FIRST_PLAYER ?
+                position - 1 :
+                position - 1 + 7;
+    }
+
+    private BoardEntity getGameBoard(UUID boardId) {
+        var boardToPlay = this.boardRepository.findById(boardId.toString());
+
+        if (boardToPlay.isEmpty()) {
+            throw new BoardException(NO_BOARD_FOUND);
+        }
+
+        return boardToPlay.get();
     }
 }

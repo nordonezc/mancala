@@ -1,6 +1,6 @@
 package com.bol.nordonezc.mancala.exceptions;
 
-import com.bol.nordonezc.mancala.dto.PlayResponseDto;
+import com.bol.nordonezc.mancala.dto.GameDto;
 import com.bol.nordonezc.mancala.dto.ErrorMessage;
 import com.bol.nordonezc.mancala.dto.GenericResponse;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,7 @@ public class GlobalExceptionHandler {
             HttpMessageNotReadableException.class,
             MethodArgumentTypeMismatchException.class,
             HttpMediaTypeNotSupportedException.class})
-    public ResponseEntity<GenericResponse<PlayResponseDto>> handleBoardException(Exception exception) {
+    public ResponseEntity<GenericResponse<GameDto>> handleException(Exception exception) {
         var errorMessage = ErrorMessage.builder()
                 .code(INVALID_INPUT.name())
                 .description(exception.getMessage()).build();
@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<GenericResponse<PlayResponseDto>> handleBoardException(BoardException exception) {
+    public ResponseEntity<GenericResponse<GameDto>> handleException(BoardException exception) {
         var errorMessage = ErrorMessage.builder()
                 .code(exception.getErrorCode().name())
                 .description(exception.getMessage()).build();
@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler
-    public ResponseEntity<GenericResponse<PlayResponseDto>> handleBoardException(MethodArgumentNotValidException exception) {
+    public ResponseEntity<GenericResponse<GameDto>> handleException(MethodArgumentNotValidException exception) {
         List<ErrorMessage> response = exception.getBindingResult().getAllErrors().stream()
                 .map(error -> ErrorMessage.builder()
                         .code(INVALID_INPUT.name())

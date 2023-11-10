@@ -1,24 +1,16 @@
 package com.bol.nordonezc.mancala.business;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Arrays;
 
-import static com.bol.nordonezc.mancala.utils.PitUtils.EMPTY_PIT;
-import static com.bol.nordonezc.mancala.utils.PitUtils.FIRST_PLAYER;
-import static com.bol.nordonezc.mancala.utils.PitUtils.FIRST_PLAYER_BIG_PIT;
-import static com.bol.nordonezc.mancala.utils.PitUtils.NO_PLAYER;
-import static com.bol.nordonezc.mancala.utils.PitUtils.NUMBER_OF_PLAYERS;
-import static com.bol.nordonezc.mancala.utils.PitUtils.PITS_AMOUNT_PER_PLAYER;
-import static com.bol.nordonezc.mancala.utils.PitUtils.SECOND_PLAYER;
-import static com.bol.nordonezc.mancala.utils.PitUtils.SECOND_PLAYER_BIG_PIT;
-import static com.bol.nordonezc.mancala.utils.PitUtils.getNextPlayerTurn;
-import static com.bol.nordonezc.mancala.utils.PitUtils.isFirstPlayerPits;
-import static com.bol.nordonezc.mancala.utils.PitUtils.isOneSideOutOfStones;
-import static com.bol.nordonezc.mancala.utils.PitUtils.isSecondPlayerPits;
-import static com.bol.nordonezc.mancala.utils.PitUtils.validPitPositionToFill;
+import static com.bol.nordonezc.mancala.utils.PitUtils.*;
 
 @Getter
+@Builder
+@AllArgsConstructor
 public class MancalaBoard {
 
     private final int[] pits;
@@ -33,7 +25,7 @@ public class MancalaBoard {
         this.playerTurn = FIRST_PLAYER;
     }
 
-    public int playTurn(int position) {
+    public void playTurn(int position) {
         int lastPositionSowed = sowStonesFrom(position);
         playerTurn = getNextPlayerTurn(playerTurn, lastPositionSowed);
 
@@ -41,8 +33,6 @@ public class MancalaBoard {
             winner = pits[FIRST_PLAYER_BIG_PIT] > pits[SECOND_PLAYER_BIG_PIT] ?
                     FIRST_PLAYER : SECOND_PLAYER;
         }
-
-        return lastPositionSowed;
     }
 
     /**
