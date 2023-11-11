@@ -1,0 +1,724 @@
+{
+	"info": {
+		"_postman_id": "74d2d9f6-9983-45ca-884b-61bed993b354",
+		"name": "MancalaAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "4776637",
+		"_collection_link": "https://www.postman.com/niki4projects/workspace/mancalagame/collection/4776637-74d2d9f6-9983-45ca-884b-61bed993b354?action=share&source=collection_link&creator=4776637"
+	},
+	"item": [
+		{
+			"name": "createGame",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/v1/game",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"game"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "invalidStones",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"stones\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v1/game",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"game"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Nov 2023 19:49:12 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"responseTime\": \"2023-11-08T14:49:12.0208783\",\n    \"error\": [\n        {\n            \"code\": \"INVALID_INPUT\",\n            \"description\": \"JSON parse error: Cannot deserialize value of type `java.lang.Integer` from Boolean value (token `JsonToken.VALUE_TRUE`)\"\n        }\n    ]\n}"
+				},
+				{
+					"name": "validStones",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"stones\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v1/game",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"game"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/hal+json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 11 Nov 2023 02:54:02 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"responseTime\": \"2023-11-10T21:54:02.8905459\",\n    \"body\": {\n        \"id\": \"95235230-a7e2-4aba-b6fd-2a82d34f702e\",\n        \"firstPlayerPits\": [\n            1,\n            1,\n            1,\n            1,\n            1,\n            1\n        ],\n        \"firstPlayerMancala\": 0,\n        \"secondPlayerPits\": [\n            1,\n            1,\n            1,\n            1,\n            1,\n            1\n        ],\n        \"secondPlayerMancala\": 0,\n        \"winner\": 0,\n        \"playerTurn\": 1\n    },\n    \"_links\": {\n        \"self\": {\n            \"href\": \"http://localhost:8080/v1/game/95235230-a7e2-4aba-b6fd-2a82d34f702e\"\n        },\n        \"home\": {\n            \"href\": \"http://localhost:8080/v1/game/\"\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "play",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/v1/game",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"game"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "required body",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v1/game/5fa230af-fec8-4020-ab91-895ed589c9ca",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"game",
+								"5fa230af-fec8-4020-ab91-895ed589c9ca"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Nov 2023 19:52:34 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"responseTime\": \"2023-11-08T14:52:34.7639011\",\n    \"error\": [\n        {\n            \"code\": \"INVALID_INPUT\",\n            \"description\": \"Required request body is missing: public org.springframework.http.ResponseEntity<com.bol.nordonezc.mancala.dto.Response<com.bol.nordonezc.mancala.dto.BoardDto>> com.bol.nordonezc.mancala.controller.GameController.playGame(java.util.UUID,com.bol.nordonezc.mancala.dto.PlayRequestDto)\"\n        }\n    ]\n}"
+				},
+				{
+					"name": "text not supported",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"position\": true\r\n}"
+						},
+						"url": {
+							"raw": "localhost:8080/v1/game/5fa230af-fec8-4020-ab91-895ed589c9ca",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"game",
+								"5fa230af-fec8-4020-ab91-895ed589c9ca"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Nov 2023 19:53:00 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"responseTime\": \"2023-11-08T14:53:00.7602658\",\n    \"error\": [\n        {\n            \"code\": \"INVALID_INPUT\",\n            \"description\": \"Content-Type 'text/plain;charset=UTF-8' is not supported\"\n        }\n    ]\n}"
+				},
+				{
+					"name": "incorrect value",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"position\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v1/game/5fa230af-fec8-4020-ab91-895ed589c9ca",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"game",
+								"5fa230af-fec8-4020-ab91-895ed589c9ca"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Nov 2023 19:53:18 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"responseTime\": \"2023-11-08T14:53:18.7869451\",\n    \"error\": [\n        {\n            \"code\": \"INVALID_INPUT\",\n            \"description\": \"JSON parse error: Cannot deserialize value of type `java.lang.Integer` from Boolean value (token `JsonToken.VALUE_TRUE`)\"\n        }\n    ]\n}"
+				},
+				{
+					"name": "max value",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"position\": 8\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v1/game/5fa230af-fec8-4020-ab91-895ed589c9ca",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"game",
+								"5fa230af-fec8-4020-ab91-895ed589c9ca"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Nov 2023 19:53:33 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"responseTime\": \"2023-11-08T14:53:33.4258894\",\n    \"error\": [\n        {\n            \"code\": \"INVALID_INPUT\",\n            \"description\": \"position:must be less than or equal to 6\"\n        }\n    ]\n}"
+				},
+				{
+					"name": "min value",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"position\": 0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v1/game/5fa230af-fec8-4020-ab91-895ed589c9ca",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"game",
+								"5fa230af-fec8-4020-ab91-895ed589c9ca"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Nov 2023 19:53:48 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"responseTime\": \"2023-11-08T14:53:48.5480773\",\n    \"error\": [\n        {\n            \"code\": \"INVALID_INPUT\",\n            \"description\": \"position:must be greater than or equal to 1\"\n        }\n    ]\n}"
+				},
+				{
+					"name": "winner",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"position\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v1/game/417253d4-e0d2-40ed-8305-ab5585f94f5a",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"game",
+								"417253d4-e0d2-40ed-8305-ab5585f94f5a"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Nov 2023 20:25:49 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"responseTime\": \"2023-11-08T15:25:49.4757404\",\n    \"body\": {\n        \"id\": \"417253d4-e0d2-40ed-8305-ab5585f94f5a\",\n        \"firstPlayerPits\": [\n            0,\n            0,\n            0,\n            0,\n            0,\n            0\n        ],\n        \"firstPlayerMancala\": 13,\n        \"secondPlayerPits\": [\n            0,\n            0,\n            0,\n            0,\n            2,\n            6\n        ],\n        \"secondPlayerMancala\": 3,\n        \"winner\": 1,\n        \"playerTurn\": 2\n    }\n}"
+				},
+				{
+					"name": "validPlay",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "5",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/v1/game/95235230-a7e2-4aba-b6fd-2a82d34f702e",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"game",
+								"95235230-a7e2-4aba-b6fd-2a82d34f702e"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/hal+json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 11 Nov 2023 02:55:59 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"responseTime\": \"2023-11-10T21:55:59.8338309\",\n    \"body\": {\n        \"id\": \"95235230-a7e2-4aba-b6fd-2a82d34f702e\",\n        \"firstPlayerPits\": [\n            1,\n            1,\n            1,\n            1,\n            0,\n            2\n        ],\n        \"firstPlayerMancala\": 0,\n        \"secondPlayerPits\": [\n            1,\n            1,\n            1,\n            1,\n            1,\n            1\n        ],\n        \"secondPlayerMancala\": 0,\n        \"winner\": 0,\n        \"playerTurn\": 2\n    },\n    \"_links\": {\n        \"self\": {\n            \"href\": \"http://localhost:8080/v1/game/95235230-a7e2-4aba-b6fd-2a82d34f702e\"\n        },\n        \"home\": {\n            \"href\": \"http://localhost:8080/v1/game/\"\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "getGame",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/v1/game/4f6f8375-a2d7-4320-9c71-9906705a423b",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"game",
+						"4f6f8375-a2d7-4320-9c71-9906705a423b"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "valid",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v1/game/5ad1c4c3-7efb-4f56-98a3-421fd845d91a",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"game",
+								"5ad1c4c3-7efb-4f56-98a3-421fd845d91a"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Nov 2023 19:50:10 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"responseTime\": \"2023-11-08T14:50:10.1267611\",\n    \"body\": {\n        \"firstPlayerPits\": [\n            2,\n            2,\n            2,\n            2,\n            2,\n            2\n        ],\n        \"firstPlayerMancala\": 0,\n        \"secondPlayerPits\": [\n            2,\n            2,\n            2,\n            2,\n            2,\n            2\n        ],\n        \"secondPlayerMancala\": 0,\n        \"winner\": 0,\n        \"playerTurn\": 1\n    }\n}"
+				},
+				{
+					"name": "does not exists",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v1/game/5fa230af-fec8-4020-ab91-895ed589c9cb",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"game",
+								"5fa230af-fec8-4020-ab91-895ed589c9cb"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Nov 2023 19:51:44 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"responseTime\": \"2023-11-08T14:51:44.4666965\",\n    \"error\": [\n        {\n            \"code\": \"NO_BOARD_FOUND\",\n            \"description\": \"The board id does not exists.\"\n        }\n    ]\n}"
+				},
+				{
+					"name": "invalid input",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v1/game/5fa230af-fec8-4020-ab91",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"game",
+								"5fa230af-fec8-4020-ab91"
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 08 Nov 2023 19:52:09 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"responseTime\": \"2023-11-08T14:52:09.649758\",\n    \"error\": [\n        {\n            \"code\": \"INVALID_INPUT\",\n            \"description\": \"Failed to convert value of type 'java.lang.String' to required type 'java.util.UUID'; Invalid UUID string: 5fa230af-fec8-4020-ab91\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "home",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/v1/game/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"game",
+						""
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "operations",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/v1/game/",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"v1",
+								"game",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Sat, 11 Nov 2023 02:53:27 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"rel\": \"self\",\n        \"href\": \"http://localhost:8080/v1/game\"\n    },\n    {\n        \"rel\": \"self\",\n        \"href\": \"http://localhost:8080/v1/game/{id}\"\n    },\n    {\n        \"rel\": \"self\",\n        \"href\": \"http://localhost:8080/v1/game/{id}\"\n    }\n]"
+				}
+			]
+		}
+	]
+}
