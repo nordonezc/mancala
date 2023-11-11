@@ -33,12 +33,4 @@ public class GameDto implements Serializable {
         GameDto gameDto = (GameDto) o;
         return firstPlayerMancala == gameDto.firstPlayerMancala && secondPlayerMancala == gameDto.secondPlayerMancala && winner == gameDto.winner && playerTurn == gameDto.playerTurn && Objects.equals(id, gameDto.id) && Arrays.equals(firstPlayerPits, gameDto.firstPlayerPits) && Arrays.equals(secondPlayerPits, gameDto.secondPlayerPits);
     }
-
-    @Override
-    public int hashCode() {
-        int result = Objects.hash(id, firstPlayerMancala, secondPlayerMancala, winner, playerTurn);
-        result = 31 * result + Arrays.hashCode(firstPlayerPits);
-        result = 31 * result + Arrays.hashCode(secondPlayerPits);
-        return result;
-    }
 }

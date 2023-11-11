@@ -7,11 +7,17 @@ import com.bol.nordonezc.mancala.dto.PlayRequestDto;
 import com.bol.nordonezc.mancala.service.GameService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.hateoas.Link;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,13 +31,15 @@ public class GameController {
                                                                @Valid
                                                                CreateGameRequestDto requestDto) {
         var gameInput = Optional.ofNullable(requestDto).orElse(new CreateGameRequestDto());
-        return ResponseEntity.ok(new GenericResponse<>(gameService.createGame(gameInput.getStones())));
+        GameDto gameCreated = gameService.createGame(gameInput.getStones());
+        GenericResponse<GameDto> body = new GenericResponse<>(gameCreated);
+        return generateLink(body, gameCreated.getId());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<GenericResponse<GameDto>> getGame(@PathVariable UUID id) {
-        return ResponseEntity.ok(
-                new GenericResponse<>(gameService.getGame(id)));
+        GenericResponse<GameDto> body = new GenericResponse<>(gameService.getGame(id));
+        return generateLink(body, id);
     }
 
     @PostMapping("/{id}")
@@ -39,7 +47,33 @@ public class GameController {
                                                              @RequestBody
                                                              @Valid
                                                              PlayRequestDto requestDto) {
-        return ResponseEntity.ok(
-                new GenericResponse<>(gameService.playGame(id, requestDto.getPosition())));
+        GenericResponse<GameDto> body = new GenericResponse<>(gameService.playGame(id, requestDto.getPosition()));
+        return generateLink(body, id);
+    }
+
+    /**
+     * Response given to consult the root
+     *
+     * @return welcome message
+     */
+    @GetMapping("/")
+    public List<Link> home() {
+        List<Link> availableOperations = new ArrayList<>();
+        availableOperations.add(linkTo(
+                methodOn(GameController.class)
+                        .createGame(null)).withSelfRel());
+        availableOperations.add(linkTo(
+                methodOn(GameController.class)
+                        .getGame(null)).withSelfRel());
+        availableOperations.add(linkTo(
+                methodOn(GameController.class)
+                        .playGame(null, new PlayRequestDto())).withSelfRel());
+        return availableOperations;
+    }
+
+    private ResponseEntity<GenericResponse<GameDto>> generateLink(GenericResponse<GameDto> genericResponse, UUID id) {
+        var selfLink = linkTo(GameController.class).slash(id).withSelfRel();
+        var homeLink = linkTo(methodOn(GameController.class).home()).withRel("home");
+        return ResponseEntity.ok(genericResponse.add(selfLink, homeLink));
     }
 }
