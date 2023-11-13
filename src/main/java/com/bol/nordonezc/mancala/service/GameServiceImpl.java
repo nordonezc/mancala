@@ -9,6 +9,7 @@ import com.bol.nordonezc.mancala.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import static com.bol.nordonezc.mancala.utils.ErrorMessage.*;
@@ -26,7 +27,10 @@ public class GameServiceImpl implements GameService {
     @Override
     public GameDto createGame(int stones) {
         UUID newBoardID = UUID.randomUUID();
-        var boardCreated = boardRepository.save(boardMapper.mapBoardToEntity(newBoardID, new MancalaBoard(stones)));
+        var boardToSave = boardMapper.mapBoardToEntity(newBoardID, new MancalaBoard(stones));
+        boardToSave.setCreationDate(LocalDateTime.now());
+        boardToSave.setModificationDate(LocalDateTime.now());
+        var boardCreated = boardRepository.save(boardToSave);
         return boardMapper.mapEntityToDto(boardCreated);
     }
 
@@ -41,17 +45,28 @@ public class GameServiceImpl implements GameService {
         var boardToPlay = boardMapper.mapEntityToBoard(boardFound);
         int positionToPlay = getPositionToPlay(position, boardToPlay.getPlayerTurn());
 
-        if (boardToPlay.getWinner() != NO_PLAYER) {
-            throw new BoardException(WINNER_SELECTED);
-        }
         if (boardToPlay.getPits()[positionToPlay] == EMPTY_PIT) {
             throw new BoardException(EMPTY_POSITION);
         }
 
         boardToPlay.playTurn(positionToPlay);
+
         var entityBoard = boardMapper.mapBoardToEntity(boardId, boardToPlay);
-        boardRepository.save(entityBoard);
+        updateEntity(entityBoard);
         return boardMapper.mapEntityToDto(entityBoard);
+    }
+
+    /**
+     * Check if the actual entity has defined a winner to update it or delete it
+     * @param entityBoard - Board to check winner
+     */
+    private void updateEntity(BoardEntity entityBoard) {
+        if(entityBoard.getWinner() != 0){
+            boardRepository.deleteById(entityBoard.getId());
+        } else{
+            entityBoard.setModificationDate(LocalDateTime.now());
+            boardRepository.save(entityBoard);
+        }
     }
 
     /**

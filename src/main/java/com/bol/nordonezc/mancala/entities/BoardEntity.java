@@ -1,17 +1,21 @@
 package com.bol.nordonezc.mancala.entities;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.data.redis.core.index.Indexed;
 
 import java.io.Serializable;
 
-@RedisHash("Board")
+@RedisHash(value = "Board")
 @Data
-@AllArgsConstructor
-public class BoardEntity implements Serializable {
+@SuperBuilder
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class BoardEntity extends Trace implements Serializable {
 
     @Id
     private String id;

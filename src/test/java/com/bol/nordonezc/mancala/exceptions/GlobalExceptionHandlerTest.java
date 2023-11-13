@@ -33,7 +33,6 @@ public class GlobalExceptionHandlerTest {
 
     private static Stream<BoardException> boardException() {
         return Stream.of(new BoardException(ErrorMessage.NO_BOARD_FOUND),
-                new BoardException(ErrorMessage.WINNER_SELECTED),
                 new BoardException(ErrorMessage.EMPTY_POSITION)
         );
     }

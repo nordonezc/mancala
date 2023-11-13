@@ -35,10 +35,12 @@ public class BoardMapper {
     }
 
     public BoardEntity mapBoardToEntity(UUID id, MancalaBoard mancalaBoard) {
-        return new BoardEntity(id.toString(),
-                mancalaBoard.getWinner(),
-                mancalaBoard.getPlayerTurn(),
-                mancalaBoard.getPits());
+        return BoardEntity.builder()
+                .id(id.toString())
+                .winner(mancalaBoard.getWinner())
+                .playerTurn(mancalaBoard.getPlayerTurn())
+                .pits(mancalaBoard.getPits())
+                .build();
     }
 
     public MancalaBoard mapEntityToBoard(BoardEntity boardEntity) {
