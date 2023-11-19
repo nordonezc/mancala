@@ -84,7 +84,19 @@ public class PitUtils {
      */
     public static boolean isOneSideOutOfStones(int[] pits) {
         return checkPitRangeEmptiness(pits, 0, FIRST_PLAYER_BIG_PIT) ||
-                checkPitRangeEmptiness(pits, FIRST_PLAYER_BIG_PIT, SECOND_PLAYER_BIG_PIT);
+                checkPitRangeEmptiness(pits, FIRST_PLAYER_BIG_PIT + 1, SECOND_PLAYER_BIG_PIT);
+    }
+
+    /**
+     * Clean stones from both sides and sum up to each mancala
+     *
+     * @param pits Actual board
+     */
+    public static void cleanBoardRemains(int[] pits) {
+        var remainingStones = cleanAllPits(pits, 0, FIRST_PLAYER_BIG_PIT);
+        pits[FIRST_PLAYER_BIG_PIT] += remainingStones;
+        remainingStones = cleanAllPits(pits, FIRST_PLAYER_BIG_PIT + 1, SECOND_PLAYER_BIG_PIT);
+        pits[SECOND_PLAYER_BIG_PIT] += remainingStones;
     }
 
     /**
@@ -103,5 +115,22 @@ public class PitUtils {
         }
 
         return true;
+    }
+
+    /**
+     * Take all the stones from the pits positions range given
+     *
+     * @param pits          Pits to clean
+     * @param startingPoint Initial range of the pits
+     * @param endingPoint   End range of the pits
+     * @return Sum of all the stones in the pits range
+     */
+    public static int cleanAllPits(int[] pits, int startingPoint, int endingPoint) {
+        int sum = 0;
+        for (int i = startingPoint; i < endingPoint; i++) {
+            sum += pits[i];
+            pits[i] = 0;
+        }
+        return sum;
     }
 }

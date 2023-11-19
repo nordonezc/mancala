@@ -6,7 +6,20 @@ import lombok.Getter;
 
 import java.util.Arrays;
 
-import static com.bol.nordonezc.mancala.utils.PitUtils.*;
+import static com.bol.nordonezc.mancala.utils.PitUtils.EMPTY_PIT;
+import static com.bol.nordonezc.mancala.utils.PitUtils.FIRST_PLAYER;
+import static com.bol.nordonezc.mancala.utils.PitUtils.FIRST_PLAYER_BIG_PIT;
+import static com.bol.nordonezc.mancala.utils.PitUtils.NO_PLAYER;
+import static com.bol.nordonezc.mancala.utils.PitUtils.NUMBER_OF_PLAYERS;
+import static com.bol.nordonezc.mancala.utils.PitUtils.PITS_AMOUNT_PER_PLAYER;
+import static com.bol.nordonezc.mancala.utils.PitUtils.SECOND_PLAYER;
+import static com.bol.nordonezc.mancala.utils.PitUtils.SECOND_PLAYER_BIG_PIT;
+import static com.bol.nordonezc.mancala.utils.PitUtils.cleanBoardRemains;
+import static com.bol.nordonezc.mancala.utils.PitUtils.getNextPlayerTurn;
+import static com.bol.nordonezc.mancala.utils.PitUtils.isFirstPlayerPits;
+import static com.bol.nordonezc.mancala.utils.PitUtils.isOneSideOutOfStones;
+import static com.bol.nordonezc.mancala.utils.PitUtils.isSecondPlayerPits;
+import static com.bol.nordonezc.mancala.utils.PitUtils.validPitPositionToFill;
 
 @Getter
 @Builder
@@ -30,6 +43,7 @@ public class MancalaBoard {
         playerTurn = getNextPlayerTurn(playerTurn, lastPositionSowed);
 
         if (isOneSideOutOfStones(pits)) {
+            cleanBoardRemains(pits);
             winner = pits[FIRST_PLAYER_BIG_PIT] > pits[SECOND_PLAYER_BIG_PIT] ?
                     FIRST_PLAYER : SECOND_PLAYER;
         }
